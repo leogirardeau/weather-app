@@ -19,14 +19,24 @@ window.addEventListener('load', () => {
                     return response.json();
                 })
                 .then(data => {
-                    const { temperature, summary } = data.currently;
+                    const { temperature, summary, icon } = data.currently;
                     //Set DOM Elements from the API
                     temperatureDegree.textContent = temperature;
                     temperatureDescription.textContent = summary;
                     locationTimezone.textContent = data.timezone;
+                    //Set Icon
+                    setIcons(icon, document.querySelector('.icon'));
                 });
         });
     } else {
         h1.textContent = "Hey please enable your geolocation or maybe your browser doesn't allow it"
     }
+
+    function setIcons(icon, iconID) {
+        const skycons = new Skycons({ color: "white" });
+        const currentIcon = icon.replace(/-/g, "_").toUpperCase();
+        skycons.play();
+        return skycons.set(iconID, Skycons[currentIcon]);
+    }
+
 });
